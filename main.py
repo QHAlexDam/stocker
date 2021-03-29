@@ -16,8 +16,8 @@ style.use('ggplot')
 
 #df = web.DataReader("GME", 'AlphaVantage', start, end)
 
-ts = TimeSeries(key =os.environ.get('ALPHA_VANTAGE_API_KEY'))
+ts = TimeSeries(key =os.environ.get('ALPHA_VANTAGE_API_KEY'), output_format='pandas', indexing_type='date')
 # Get json object with the intraday data and another with  the call's metadata
-data, meta_data = ts.get_intraday('GME')
+data, meta_data = ts.get_intraday('TSLA')
 
 print (data)
