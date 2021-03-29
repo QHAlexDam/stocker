@@ -4,7 +4,10 @@ from matplotlib import style
 import pandas as pd
 import pandas_datareader.data as web
 from alpha_vantage.timeseries import TimeSeries
-API = 'YA4TQBJDMX3RG00Q'
+import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 style.use('ggplot')
 
@@ -13,6 +16,8 @@ style.use('ggplot')
 
 #df = web.DataReader("GME", 'AlphaVantage', start, end)
 
-ts = TimeSeries(key=API)
+ts = TimeSeries(key =os.environ.get('ALPHA_VANTAGE_API_KEY'))
 # Get json object with the intraday data and another with  the call's metadata
 data, meta_data = ts.get_intraday('GME')
+
+print (data)
