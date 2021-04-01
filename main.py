@@ -93,10 +93,26 @@ scaler = MinMaxScaler()
 trainingData = trainingData.reshape(-1,1)
 testingData = testingData.reshape(-1,1)
 
-# Train the Scaler with training data and smooth data
+#Train the Scaler with training data and smooth data
 smoothing_window_size = 400 #chosen to have 4 windows in data. Here data size is 1950
 for di in range(0,1600,smoothing_window_size):
     scaler.fit(trainingData[di:di+smoothing_window_size,:])
     trainingData[di:di+smoothing_window_size,:] = scaler.transform(trainingData[di:di+smoothing_window_size,:])
-print(trainingData)
 
+#normalize the last bit of remaining data
+scaler.fit(trainingData[di+smoothing_window_size:,:])
+trainingData[di+smoothing_window_size:,:] = scaler.transform(trainingData[di+smoothing_window_size:,:])
+
+# Reshape both train and test data
+trainingData = trainingData.reshape(-1)
+
+# Normalize test data
+testingData = scaler.transform(testingData).reshape(-1)
+
+# Smoothing with exponential moving average smoothing, generate smoother curves
+EMA = 0.0
+gamma = 0.1
+for ti in range(midIndex):
+  EMA = gamma*trainingData[ti] + (1-gamma)*EMA
+  trainingData[ti] = EMA
+print(trainingData)
