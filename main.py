@@ -92,3 +92,11 @@ print(testingData)
 scaler = MinMaxScaler()
 trainingData = trainingData.reshape(-1,1)
 testingData = testingData.reshape(-1,1)
+
+# Train the Scaler with training data and smooth data
+smoothing_window_size = 400 #chosen to have 4 windows in data. Here data size is 1950
+for di in range(0,1600,smoothing_window_size):
+    scaler.fit(trainingData[di:di+smoothing_window_size,:])
+    trainingData[di:di+smoothing_window_size,:] = scaler.transform(trainingData[di:di+smoothing_window_size,:])
+print(trainingData)
+
