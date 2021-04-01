@@ -54,10 +54,10 @@ fx = ForeignExchange(key=os.environ.get('ALPHA_VANTAGE_API_KEY'))
 
 #storing data in a file
 ticker = "AAL"
-data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
 file_to_save = 'stock_market_data-%s.csv'%ticker
 
 if not os.path.exists(file_to_save):
+    data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
     data.to_csv(file_to_save)
     print('Data saved to: %s' %file_to_save)
 else:
@@ -66,11 +66,17 @@ else:
 
 #sorting by date
 df = df.sort_values('date')
-print (df.head())
+#print (df.head())
 
-plt.figure(figsize = (19,9))
-plt.plot(range(df.shape[0]),(df['3. low']+df['2. high'])/2.0)
-plt.xticks(range(0,df.shape[0],500),df['date'].loc[::500],rotation=45)
-plt.xlabel('date',fontsize=18)
-plt.ylabel('Mid Price',fontsize=18)
-plt.show()
+#plt.figure(figsize = (19,9))
+#plt.plot(range(df.shape[0]),(df['3. low']+df['2. high'])/2.0)
+#plt.xticks(range(0,df.shape[0],500),df['date'].loc[::500],rotation=45)
+#plt.xlabel('date',fontsize=18)
+#plt.ylabel('Mid Price',fontsize=18)
+#plt.show()
+
+#Data sets
+high = df.loc[:,'2. high'].to_numpy()
+low= df.loc[:,'3. low'].to_numpy()
+mid = (high+low)/2.0
+#print (mid)
