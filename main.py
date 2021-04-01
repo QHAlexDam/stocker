@@ -13,6 +13,7 @@ from dotenv import load_dotenv, find_dotenv
 from pprint import pprint
 import urllib.request, json
 import numpy as np
+import math
 #import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 
@@ -52,22 +53,23 @@ fx = ForeignExchange(key=os.environ.get('ALPHA_VANTAGE_API_KEY'))
 #data, _ = fx.get_currency_exchange_rate(from_currency='BTC',to_currency='USD')
 #pprint(data)
 
-#storing data in a file
-ticker = "AAL"
-file_to_save = 'stock_market_data-%s.csv'%ticker
 
+#Getting and storing data in a cvs file
+ticker = "AAL"
+#url_string = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s&outputsize=full&apikey=%s"%(ticker,os.environ.get('ALPHA_VANTAGE_API_KEY'))
+file_to_save = 'stock_market_data-%s.csv'%ticker
 if not os.path.exists(file_to_save):
     data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
     data.to_csv(file_to_save)
     print('Data saved to: %s' %file_to_save)
+    df = pd.read_csv(file_to_save)
+    df = df.sort_values('date')
 else:
     print('Loading data from: ' + file_to_save)
     df = pd.read_csv(file_to_save)
+    df = df.sort_values('date')
 
-#sorting by date
-df = df.sort_values('date')
-#print (df.head())
-
+#Graphing data
 #plt.figure(figsize = (19,9))
 #plt.plot(range(df.shape[0]),(df['3. low']+df['2. high'])/2.0)
 #plt.xticks(range(0,df.shape[0],500),df['date'].loc[::500],rotation=45)
@@ -77,6 +79,16 @@ df = df.sort_values('date')
 
 #Data sets
 high = df.loc[:,'2. high'].to_numpy()
-low= df.loc[:,'3. low'].to_numpy()
+low = df.loc[:,'3. low'].to_numpy()
 mid = (high+low)/2.0
-#print (mid)
+midIndex =math.floor(len(mid)/2)
+
+trainingData = mid[:midIndex]
+testingData = mid[midIndex:]
+print(trainingData)
+print(testingData)
+
+#Normalize data
+scaler = MinMaxScaler()
+trainingData = trainingData.reshape(-1,1)
+testingData = testingData.reshape(-1,1)
