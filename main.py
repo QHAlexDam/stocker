@@ -14,48 +14,15 @@ df = stockToCSV(file_to_save, ticker)
 #plt.ylabel('Mid Price',fontsize=18)
 #plt.show()
 
-#Data sets
-high = df.loc[:,'2. high'].to_numpy()
-low = df.loc[:,'3. low'].to_numpy()
-mid = (high+low)/2.0
-midIndex =math.floor(len(mid)/2)
+winSize = 400
+rangei=0
+rangef=1600
 
-trainingData = mid[:midIndex]
-testingData = mid[midIndex:]
-print(trainingData)
-print(testingData)
+scaler = createDataSets(df, winSize, rangei, rangef)[0]
+trainingData = createDataSets(df, winSize, rangei, rangef)[1]
+testingData = createDataSets(df, winSize, rangei, rangef)[2]
+all_mid_data = createDataSets(df, winSize, rangei, rangef)[3]
 
-#Normalize data
-scaler = MinMaxScaler()
-trainingData = trainingData.reshape(-1,1)
-testingData = testingData.reshape(-1,1)
-
-#Train the Scaler with training data and smooth data
-smoothing_window_size = 400 #chosen to have 4 windows in data. Here data size is 1950
-for di in range(0,1600,smoothing_window_size):
-    scaler.fit(trainingData[di:di+smoothing_window_size,:])
-    trainingData[di:di+smoothing_window_size,:] = scaler.transform(trainingData[di:di+smoothing_window_size,:])
-
-#normalize the last bit of remaining data
-scaler.fit(trainingData[di+smoothing_window_size:,:])
-trainingData[di+smoothing_window_size:,:] = scaler.transform(trainingData[di+smoothing_window_size:,:])
-
-# Reshape both train and test data
-trainingData = trainingData.reshape(-1)
-
-# Normalize test data
-testingData = scaler.transform(testingData).reshape(-1)
-
-# Smoothing with exponential moving average smoothing, generate smoother curves
-EMA = 0.0
-gamma = 0.1
-for ti in range(midIndex):
-  EMA = gamma*trainingData[ti] + (1-gamma)*EMA
-  trainingData[ti] = EMA
-#print(trainingData)
-
-all_mid_data = np.concatenate([trainingData,testingData],axis=0)
-#print(all_mid_data)
 
 #standard average
 std_avg_prediction(df, trainingData, all_mid_data)

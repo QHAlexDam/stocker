@@ -4,7 +4,7 @@ from imports import *
 def std_avg_prediction(df, trainingData, all_mid_data):
     print("Prediction based on standard average")
 
-    window_size = 20
+    window_size = 10
     N = trainingData.size
     std_avg_predictions = []
     std_avg_x = []

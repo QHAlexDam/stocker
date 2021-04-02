@@ -20,3 +20,4 @@ from sklearn.preprocessing import MinMaxScaler\
 from standardAverage import *
 from dataGetter import *
 from dataExport import *
+from dataSets import *
