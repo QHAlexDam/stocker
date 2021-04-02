@@ -22,3 +22,5 @@ std_avg_prediction(df, trainingData, all_mid_data, windowSize)
 #exponential moving average
 exp_mov_avg_prediction(df, trainingData, all_mid_data)
 
+#model
+LSTM(trainingData, 5, 5)

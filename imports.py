@@ -22,3 +22,4 @@ from dataGetter import *
 from dataExport import *
 from dataSets import *
 from exponentialMovingAvg import *
+from LSTM import *
