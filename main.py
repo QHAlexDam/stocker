@@ -2,12 +2,12 @@ from imports import *
 load_dotenv(find_dotenv())
 
 #INPUT DATA
-STOCK_TICKER = "AAL"
-FILE_NAME = 'stock_market_data-%s.csv'%ticker
+STOCK_TICKER = "TSLA"
+FILE_NAME = 'stock_market_data-%s.csv'%STOCK_TICKER
 #values depend on sample size
-WINDOW_SIZE = 400 
+WINDOW_SIZE = 300 
 RANGE_INIT = 0
-RANGE_END = 1600
+RANGE_END = 1200
 
 #Getting and storing data in a cvs file
 df = stockToCSV(FILE_NAME, STOCK_TICKER)
