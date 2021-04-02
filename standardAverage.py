@@ -1,10 +1,9 @@
 from imports import *
 #t+1 prediction via Standard Average
 
-def std_avg_prediction(df, trainingData, all_mid_data):
+def std_avg_prediction(df, trainingData, all_mid_data, window_size):
     print("Prediction based on standard average")
 
-    window_size = 10
     N = trainingData.size
     std_avg_predictions = []
     std_avg_x = []
