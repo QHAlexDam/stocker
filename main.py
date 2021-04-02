@@ -1,47 +1,12 @@
 from imports import *
 load_dotenv(find_dotenv())
 
-ts = TimeSeries(key = os.environ.get('ALPHA_VANTAGE_API_KEY'), output_format='pandas')
-sp = SectorPerformances(key = os.environ.get('ALPHA_VANTAGE_API_KEY'), output_format='pandas')
-cc = CryptoCurrencies(key=os.environ.get('ALPHA_VANTAGE_API_KEY'), output_format='pandas')
-fx = ForeignExchange(key=os.environ.get('ALPHA_VANTAGE_API_KEY'))
-
-#Stocks
-#data, meta_data = ts.get_intraday(symbol='TSLA', interval='1min', outputsize='full')
-#pprint (data.head(10))
-#data['4. close'].plot()
-#plt.title('aaa')
-#plt.tight_layout()
-#plt.grid()
-#plt.show()
-
-#Sector
-#data, meta_data = sp.get_sector()
-#data['Rank A: Real-Time Performance'].plot(kind='bar')
-#plt.title('Real Time Performance (%) per Sector')
-#plt.tight_layout()
-#plt.grid()
-#plt.show()
-
-#Crypto
-#data, meta_data = cc.get_digital_currency_daily(symbol='BTC', market='CNY')
-#data['4b. close (USD)'].plot()
-#plt.tight_layout()
-#plt.title('Daily close value for bitcoin (BTC)')
-#plt.grid()
-#plt.show()
-
-#Forex
-#data, _ = fx.get_currency_exchange_rate(from_currency='BTC',to_currency='USD')
-#pprint(data)
-
-
 #Getting and storing data in a cvs file
 ticker = "AAL"
 #url_string = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s&outputsize=full&apikey=%s"%(ticker,os.environ.get('ALPHA_VANTAGE_API_KEY'))
 file_to_save = 'stock_market_data-%s.csv'%ticker
 if not os.path.exists(file_to_save):
-    data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
+    data = getStockDaily('AAL')[0]
     data.to_csv(file_to_save)
     print('Data saved to: %s' %file_to_save)
     df = pd.read_csv(file_to_save)

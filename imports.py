@@ -18,3 +18,4 @@ import math
 from sklearn.preprocessing import MinMaxScaler\
 
 from standardAverage import std_avg_prediction
+from dataGetter import *
