@@ -1,5 +1,8 @@
 from imports import *
 
+#alternative to Alpha_vantage module, getting directly from Alpha_vantage API
+#url_string = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s&outputsize=full&apikey=%s"%(ticker,os.environ.get('ALPHA_VANTAGE_API_KEY'))
+
 #ticker:string ex 'TSLA'
 #timeInterval:string ex '1min'
 def getStockIntraday(stockTicker, timeInterval):

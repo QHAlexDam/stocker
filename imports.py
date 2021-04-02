@@ -17,5 +17,6 @@ import math
 #import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler\
 
-from standardAverage import std_avg_prediction
+from standardAverage import *
 from dataGetter import *
+from dataExport import *

@@ -3,18 +3,8 @@ load_dotenv(find_dotenv())
 
 #Getting and storing data in a cvs file
 ticker = "AAL"
-#url_string = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s&outputsize=full&apikey=%s"%(ticker,os.environ.get('ALPHA_VANTAGE_API_KEY'))
 file_to_save = 'stock_market_data-%s.csv'%ticker
-if not os.path.exists(file_to_save):
-    data = getStockDaily('AAL')[0]
-    data.to_csv(file_to_save)
-    print('Data saved to: %s' %file_to_save)
-    df = pd.read_csv(file_to_save)
-    df = df.sort_values('date')
-else:
-    print('Loading data from: ' + file_to_save)
-    df = pd.read_csv(file_to_save)
-    df = df.sort_values('date')
+df = stockToCSV(file_to_save, ticker)
 
 #Graphing data
 #plt.figure(figsize = (19,9))
